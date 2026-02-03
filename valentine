@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Valentine?</title>
+
+  <style>
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      overflow:hidden;
+      padding:24px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.9);
+      backdrop-filter:blur(10px);
+      border-radius:24px;
+      padding:24px;
+      width:min(420px,100%);
+      text-align:center;
+      box-shadow:0 20px 50px rgba(0,0,0,0.15);
+      position:relative;
+    }
+
+    .image{
+      width:100%;
+      aspect-ratio:16/10;
+      border-radius:18px;
+      background:#ffe6ec;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:16px;
+      overflow:hidden;
+    }
+
+    .image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    h1{
+      margin:8px 0 16px;
+      font-size:26px;
+      font-weight:800;
+    }
+
+    .buttons{
+      position:relative;
+      height:90px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:14px;
+    }
+
+    button{
+      padding:14px 18px;
+      border-radius:14px;
+      border:none;
+      font-weight:900;
+      font-size:16px;
+      cursor:pointer;
+      box-shadow:0 10px 20px rgba(0,0,0,0.15);
+      user-select:none;
+      transition:transform 0.2s ease;
+    }
+
+    #yes{
+      background:#22c55e;
+      color:white;
+      transform:scale(1);
+    }
+
+    #no{
+      background:#ef4444;
+      color:white;
+      position:relative;
+    }
+
+    .result{
+      display:none;
+      margin-top:20px;
+      font-size:20px;
+      font-weight:900;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <!-- IMAGE (OPTIONNELLE) -->
+    <div class="image">
+      <img src="fore-sure.jpg" alt="valentine"
+           onerror="this.parentElement.innerHTML='💘'; this.parentElement.style.fontSize='48px';">
+    </div>
+
+    <h1>Do you want to be my Valentine?</h1>
+
+    <div class="buttons" id="arena">
+      <button id="yes">FOR SHURE</button>
+      <button id="no">NO</button>
+    </div>
+
+    <div class="result" id="result">
+      💘 FOR SHURE.
+    </div>
+
+  </div>
+
+  <script>
+    const yes = document.getElementById("yes");
+    const no = document.getElementById("no");
+    const arena = document.getElementById("arena");
+    const result = document.getElementById("result");
+
+    let scale = 1;
+    let dodges = 0;
+
+    function moveNo(){
+      if(getComputedStyle(no).position !== "absolute"){
+        no.style.position = "absolute";
+      }
+
+      const a = arena.getBoundingClientRect();
+      const x = Math.random() * (a.width - no.offsetWidth);
+      const y = Math.random() * (a.height - no.offsetHeight);
+
+      no.style.left = x + "px";
+      no.style.top = y + "px";
+
+      scale += 0.12;
+      yes.style.transform = `scale(${scale})`;
+
+      dodges++;
+
+      if(dodges > 8){
+        no.style.display = "none";
+        yes.style.transform = "scale(2.2)";
+      }
+    }
+
+    no.addEventListener("mouseenter", moveNo);
+    no.addEventListener("touchstart", (e)=>{ e.preventDefault(); moveNo(); });
+    no.addEventListener("click", (e)=>{ e.preventDefault(); moveNo(); });
+
+    yes.addEventListener("click", ()=>{
+      arena.style.display = "none";
+      result.style.display = "block";
+    });
+  </script>
+
+</body>
+</html>
